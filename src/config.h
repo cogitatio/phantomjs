@@ -46,6 +46,7 @@ class Config: QObject
     Q_PROPERTY(bool pluginsEnabled READ pluginsEnabled WRITE setPluginsEnabled)
     Q_PROPERTY(QString proxy READ proxy WRITE setProxy)
     Q_PROPERTY(QString scriptEncoding READ scriptEncoding WRITE setScriptEncoding)
+    // TODO - Add property "help" (-h && --help)
 
 public:
     Config(QObject *parent = 0);

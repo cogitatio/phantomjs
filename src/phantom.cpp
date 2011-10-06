@@ -74,6 +74,7 @@ Phantom::Phantom(QObject *parent)
 
     if (m_config.scriptFile().isEmpty()) {
         Utils::showUsage();
+        // TODO - Change this in "if option 'help' is set, show the usage hints"
         return;
     }
 
@@ -135,6 +136,14 @@ bool Phantom::execute()
 {
     if (m_terminated)
         return false;
+
+    /** TODO
+    - IF no script file THEN 
+    -   connect STDIN to SocketNotifier
+    -   Connect SocketNotifier to onSocketNotifierActive() SLOT
+    - ELSE 
+    -   injectJsInFrame used againt the m_page->mainFrame()
+    */
 
     if (m_config.scriptFile().isEmpty())
         return false;

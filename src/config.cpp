@@ -133,12 +133,17 @@ void Config::processArgs(const QStringList &args)
         // There are no more options at this point.
         // The remaining arguments are available for the script.
 
+        // TODO Refactor to make sure we can handle NO SCRIPT FILE PROVIDED
         m_scriptFile = arg;
 
         while (it.hasNext()) {
             m_scriptArgs += it.next();
         }
     }
+    // TODO If no script file has been provided,
+    //  we should arrive here with the
+    //  property "m_scriptFile" still empty.
+    //  This should be indication that the REPL has been required. 
 }
 
 static QString normalizePath(const QString &path)

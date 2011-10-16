@@ -40,6 +40,7 @@
 #include "terminal.h"
 #include "utils.h"
 #include "webpage.h"
+#include "repl.h"
 
 
 // public:
@@ -138,9 +139,11 @@ bool Phantom::execute()
         return false;
 
     if (m_config.scriptFile().isEmpty()) {
-        // TODO - Fill this!
-        Terminal::instance()->cout("Start REPL here");
+        // Launch the REPL
+        REPL *repl = new REPL(m_page->mainFrame(), this);
+        Q_UNUSED(repl);
     } else {
+        // Load the User Script
         if (!Utils::injectJsInFrame(m_config.scriptFile(), m_scriptFileEnc, QDir::currentPath(), m_page->mainFrame(), true)) {
             m_returnValue = -1;
             return false;

@@ -56,8 +56,12 @@ void Config::processArgs(const QStringList &args)
     while (it.hasNext()) {
         const QString &arg = it.next();
 
-        if (arg == "--version") {
+        if (arg == "--version" || arg == "-v") {
             setVersionFlag(true);
+            return;
+        }
+        if (arg == "--help" || arg == "-h") {
+            setHelpFlag(true);
             return;
         }
         if (arg == "--load-images=yes") {
@@ -133,17 +137,12 @@ void Config::processArgs(const QStringList &args)
         // There are no more options at this point.
         // The remaining arguments are available for the script.
 
-        // TODO Refactor to make sure we can handle NO SCRIPT FILE PROVIDED
         m_scriptFile = arg;
 
         while (it.hasNext()) {
             m_scriptArgs += it.next();
         }
     }
-    // TODO If no script file has been provided,
-    //  we should arrive here with the
-    //  property "m_scriptFile" still empty.
-    //  This should be indication that the REPL has been required. 
 }
 
 static QString normalizePath(const QString &path)
@@ -376,6 +375,16 @@ bool Config::versionFlag() const
 void Config::setVersionFlag(const bool value)
 {
     m_versionFlag = value;
+}
+
+bool Config::helpFlag() const
+{
+    return m_helpFlag;
+}
+
+void Config::setHelpFlag(const bool value)
+{
+    m_helpFlag = value;
 }
 
 // private:

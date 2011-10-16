@@ -46,7 +46,6 @@ class Config: QObject
     Q_PROPERTY(bool pluginsEnabled READ pluginsEnabled WRITE setPluginsEnabled)
     Q_PROPERTY(QString proxy READ proxy WRITE setProxy)
     Q_PROPERTY(QString scriptEncoding READ scriptEncoding WRITE setScriptEncoding)
-    // TODO - Add property "help" (-h && --help)
 
 public:
     Config(QObject *parent = 0);
@@ -99,6 +98,9 @@ public:
     bool versionFlag() const;
     void setVersionFlag(const bool value);
 
+    bool helpFlag() const;
+    void setHelpFlag(const bool value);
+
 private:
     void resetToDefaults();
     void setProxyHost(const QString &value);
@@ -121,6 +123,7 @@ private:
     QString m_scriptFile;
     QString m_unknownOption;
     bool m_versionFlag;
+    bool m_helpFlag;
     QString m_authUser;
     QString m_authPass;
 };

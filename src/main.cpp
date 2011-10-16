@@ -40,12 +40,6 @@ int main(int argc, char** argv)
     // Registering an alternative Message Handler
     qInstallMsgHandler(Utils::messageHandler);
 
-    // Check number of parameters passed
-    if (argc < 2) {
-        Utils::showUsage();
-        return 1;
-    }
-
     QApplication app(argc, argv);
 
     app.setWindowIcon(QIcon(":/phantomjs-icon.png"));

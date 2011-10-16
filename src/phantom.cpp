@@ -58,8 +58,8 @@ Phantom::Phantom(QObject *parent)
     m_config.init(&args);
 
     if (m_config.versionFlag()) {
-        m_terminated = true;
         Terminal::instance()->cout(QString("%1 (development)").arg(PHANTOMJS_VERSION_STRING));
+        m_terminated = true;
         return;
     }
 
@@ -69,14 +69,14 @@ Phantom::Phantom(QObject *parent)
         return;
     }
 
-    m_page = new WebPage(this, &m_config);
-    m_pages.append(m_page);
-
-    if (m_config.scriptFile().isEmpty()) {
+    if (m_config.helpFlag()) {
         Utils::showUsage();
-        // TODO - Change this in "if option 'help' is set, show the usage hints"
+        m_terminated = true;
         return;
     }
+
+    m_page = new WebPage(this, &m_config);
+    m_pages.append(m_page);
 
     if (m_config.proxyHost().isEmpty()) {
         QNetworkProxyFactory::setUseSystemConfiguration(true);
@@ -137,20 +137,14 @@ bool Phantom::execute()
     if (m_terminated)
         return false;
 
-    /** TODO
-    - IF no script file THEN 
-    -   connect STDIN to SocketNotifier
-    -   Connect SocketNotifier to onSocketNotifierActive() SLOT
-    - ELSE 
-    -   injectJsInFrame used againt the m_page->mainFrame()
-    */
-
-    if (m_config.scriptFile().isEmpty())
-        return false;
-
-    if (!Utils::injectJsInFrame(m_config.scriptFile(), m_scriptFileEnc, QDir::currentPath(), m_page->mainFrame(), true)) {
-        m_returnValue = -1;
-        return false;
+    if (m_config.scriptFile().isEmpty()) {
+        // TODO - Fill this!
+        Terminal::instance()->cout("Start REPL here");
+    } else {
+        if (!Utils::injectJsInFrame(m_config.scriptFile(), m_scriptFileEnc, QDir::currentPath(), m_page->mainFrame(), true)) {
+            m_returnValue = -1;
+            return false;
+        }
     }
 
     return !m_terminated;
